@@ -403,6 +403,7 @@
       <div class="legend" id="legend"></div>
       <div class="chart-container"><div class="bar-chart" id="barChart"></div></div>
     </div>
+    <div class="kpi-row" id="idStatsRow"></div>
     <div class="breakdown-grid">
       <div class="breakdown-panel">
         <h2>Leads by Source</h2>
@@ -469,9 +470,14 @@
           submitted: 0, received: 0, archived: 0, delivered: 0, spam: 0,
           zillow: 0, trulia: 0, redfin: 0, se: 0,
           pacrm_del: 0, fub_del: 0, email_del: 0, builder_del: 0,
+          zuid: 0, unique_zuid: 0, tuid: 0, polarisid: 0,
         };
         const n = parseInt;
         const ev = r.event_name;
+        byDate[d].zuid += n(r.tot_zuid || 0);
+        byDate[d].unique_zuid += n(r.tot_unique_zuid || 0);
+        byDate[d].tuid += n(r.tot_tuid || 0);
+        byDate[d].polarisid += n(r.tot_polarisid || 0);
         if (ev === 'LEAD_SUBMITTED') {
           byDate[d].submitted += n(r.tot_submitted || 0);
           byDate[d].zillow += n(r.zillow || 0);
@@ -549,6 +555,7 @@
           key, label, submitted: 0, received: 0, archived: 0, delivered: 0, spam: 0,
           zillow: 0, trulia: 0, redfin: 0, se: 0,
           pacrm_del: 0, fub_del: 0, email_del: 0, builder_del: 0,
+          zuid: 0, unique_zuid: 0, tuid: 0, polarisid: 0,
         };
         const g = groups[key];
         g.submitted += row.submitted;
@@ -564,6 +571,10 @@
         g.fub_del += row.fub_del;
         g.email_del += row.email_del;
         g.builder_del += row.builder_del;
+        g.zuid += row.zuid;
+        g.unique_zuid += row.unique_zuid;
+        g.tuid += row.tuid;
+        g.polarisid += row.polarisid;
       });
       return Object.values(groups).sort((a, b) => a.key.localeCompare(b.key));
     }
@@ -714,6 +725,39 @@
       });
     }
 
+    // ---- Render ID Stats ----
+    function renderIdStats(agg) {
+      const t = agg.reduce((acc, r) => {
+        acc.zuid += r.zuid; acc.unique_zuid += r.unique_zuid;
+        acc.tuid += r.tuid; acc.polarisid += r.polarisid;
+        acc.submitted += r.submitted;
+        return acc;
+      }, { zuid: 0, unique_zuid: 0, tuid: 0, polarisid: 0, submitted: 0 });
+
+      const zuidPct = ((t.zuid / t.submitted) * 100).toFixed(1);
+      const polarisidPct = ((t.polarisid / t.submitted) * 100).toFixed(1);
+      const tuidPct = ((t.tuid / t.submitted) * 100).toFixed(1);
+
+      const stats = [
+        { label: 'Total ZUID', value: t.zuid.toLocaleString(), sub: `${zuidPct}% of submitted leads`, color: '#3b82f6' },
+        { label: 'Unique ZUID', value: t.unique_zuid.toLocaleString(), sub: `${((t.unique_zuid / t.zuid) * 100).toFixed(1)}% unique rate`, color: '#06b6d4' },
+        { label: 'Total TUID', value: t.tuid.toLocaleString(), sub: `${tuidPct}% of submitted leads`, color: '#f59e0b' },
+        { label: 'Polaris ID', value: t.polarisid.toLocaleString(), sub: `${polarisidPct}% of submitted leads`, color: '#a855f7' },
+      ];
+
+      document.getElementById('idStatsRow').innerHTML = `
+        <div style="grid-column: 1 / -1; font-size: 1.1rem; font-weight: 600; color: #f8fafc; margin-bottom: -0.5rem;">Sender Identity Stats</div>
+        ${stats.map(k => `
+          <div class="kpi-card">
+            <div class="accent" style="background:${k.color}"></div>
+            <div class="label">${k.label}</div>
+            <div class="value">${k.value}</div>
+            <div class="sub">${k.sub}</div>
+          </div>
+        `).join('')}
+      `;
+    }
+
     // ---- Render Source Breakdown ----
     function renderSourceBreakdown(agg) {
       const t = agg.reduce((acc, r) => {
@@ -832,6 +876,7 @@
       renderKPIs(agg);
       renderFunnel(agg);
       renderBarChart(agg);
+      renderIdStats(agg);
       renderSourceBreakdown(agg);
       renderDeliveryBreakdown(agg);
       renderTable(agg);
