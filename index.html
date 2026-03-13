@@ -81,7 +81,6 @@
     header { margin-bottom: 2rem; }
     header h1 { font-size: 1.75rem; font-weight: 700; color: #f8fafc; }
     header p { color: #94a3b8; margin-top: 0.25rem; font-size: 0.95rem; }
-    header .source-tag { font-size: 0.7rem; background: #334155; padding: 0.2rem 0.6rem; border-radius: 99px; color: #94a3b8; margin-left: 0.5rem; vertical-align: middle; }
 
     /* Controls */
     .controls {
@@ -104,7 +103,7 @@
     }
 
     .toggle-btn {
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1.15rem;
       border: none;
       background: transparent;
       color: #94a3b8;
@@ -118,123 +117,109 @@
     .toggle-btn:hover { color: #e2e8f0; }
     .toggle-btn.active { background: #6366f1; color: #fff; }
 
+    /* Panels */
+    .panel {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #334155;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.25rem; color: #f8fafc; }
+
     /* KPI row */
     .kpi-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .kpi-card {
       background: #1e293b;
       border-radius: 12px;
-      padding: 1.25rem;
+      padding: 1.15rem;
       border: 1px solid #334155;
       position: relative;
       overflow: hidden;
     }
 
     .kpi-card .accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-    .kpi-card .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.4rem; }
-    .kpi-card .value { font-size: 1.75rem; font-weight: 700; color: #f8fafc; }
-    .kpi-card .sub { font-size: 0.8rem; color: #64748b; margin-top: 0.25rem; }
+    .kpi-card .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.35rem; }
+    .kpi-card .value { font-size: 1.6rem; font-weight: 700; color: #f8fafc; }
+    .kpi-card .sub { font-size: 0.75rem; color: #64748b; margin-top: 0.2rem; }
 
-    /* Funnel visual */
-    .funnel-panel {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid #334155;
-      margin-bottom: 2rem;
-    }
+    /* Funnel */
+    .funnel-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0; }
 
-    .funnel-panel h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; color: #f8fafc; }
-
-    .funnel-flow {
+    .funnel-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0;
-      flex-wrap: wrap;
-    }
-
-    .funnel-node {
-      text-align: center;
-      padding: 1.25rem 1.5rem;
-      border-radius: 12px;
-      min-width: 170px;
-    }
-
-    .funnel-node .node-count { font-size: 2rem; font-weight: 700; color: #f8fafc; }
-    .funnel-node .node-label { font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem; }
-    .funnel-node .node-pct { font-size: 0.75rem; margin-top: 0.5rem; font-weight: 600; }
-
-    .funnel-arrow {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 0.5rem;
-      color: #475569;
-    }
-
-    .funnel-arrow .arrow-line {
-      width: 50px;
-      height: 2px;
-      background: #475569;
+      width: 100%;
       position: relative;
     }
 
-    .funnel-arrow .arrow-line::after {
-      content: '';
-      position: absolute;
-      right: -1px;
-      top: -4px;
-      border: 5px solid transparent;
-      border-left: 6px solid #475569;
+    .funnel-block {
+      text-align: center;
+      padding: 1.1rem 1.5rem;
+      border-radius: 10px;
+      min-width: 160px;
+      transition: transform 0.15s;
     }
 
-    .funnel-arrow .arrow-label { font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; }
+    .funnel-block:hover { transform: scale(1.03); }
 
-    .spam-branch {
+    .funnel-block .fb-count { font-size: 1.75rem; font-weight: 700; }
+    .funnel-block .fb-label { font-size: 0.78rem; margin-top: 0.2rem; }
+    .funnel-block .fb-pct { font-size: 0.7rem; margin-top: 0.4rem; font-weight: 600; opacity: 0.85; }
+
+    .funnel-pipe {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.15rem 0;
+    }
+
+    .funnel-pipe .pipe-line { width: 2px; height: 22px; background: #475569; }
+    .funnel-pipe .pipe-label { font-size: 0.68rem; color: #64748b; margin-top: 0.2rem; }
+
+    .funnel-split {
       display: flex;
       justify-content: center;
-      margin-top: 1rem;
+      gap: 2rem;
+      position: relative;
     }
 
-    .spam-branch .branch-line { width: 2px; height: 30px; background: #475569; }
-
-    .spam-node {
-      text-align: center;
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+    .funnel-split::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 160px);
+      height: 2px;
+      background: #475569;
     }
 
-    .spam-node .node-count { font-size: 1.5rem; font-weight: 700; color: #f87171; }
-    .spam-node .node-label { font-size: 0.8rem; color: #fca5a5; margin-top: 0.2rem; }
-    .spam-node .node-pct { font-size: 0.75rem; color: #f87171; margin-top: 0.35rem; font-weight: 600; }
-
-    /* Bar chart */
-    .chart-panel {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid #334155;
-      margin-bottom: 2rem;
+    .split-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .chart-panel h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #f8fafc; }
+    .split-branch .branch-pipe { width: 2px; height: 22px; background: #475569; }
 
+    /* Stacked bar chart */
     .chart-container { width: 100%; overflow-x: auto; }
 
     .bar-chart {
       display: flex;
       align-items: flex-end;
-      gap: 3px;
-      height: 260px;
-      padding: 0 0.5rem;
+      gap: 2px;
+      height: 280px;
+      padding: 0 0.25rem;
       min-width: fit-content;
     }
 
@@ -243,50 +228,32 @@
       flex-direction: column;
       align-items: center;
       flex: 1;
-      min-width: 50px;
+      min-width: 36px;
     }
 
     .bar-stack {
       display: flex;
       flex-direction: column-reverse;
-      width: 32px;
+      width: 28px;
     }
 
     .bar-segment {
       width: 100%;
-      border-radius: 2px;
       cursor: pointer;
       transition: filter 0.15s;
     }
 
+    .bar-segment:first-child { border-radius: 0 0 2px 2px; }
+    .bar-segment:last-child { border-radius: 2px 2px 0 0; }
     .bar-segment:hover { filter: brightness(1.3); }
 
     .bar-label {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       color: #64748b;
       margin-top: 0.4rem;
       text-align: center;
       white-space: nowrap;
     }
-
-    .tooltip {
-      display: none;
-      position: fixed;
-      background: #1e293b;
-      border: 1px solid #475569;
-      border-radius: 8px;
-      padding: 0.75rem;
-      font-size: 0.75rem;
-      z-index: 100;
-      pointer-events: none;
-      min-width: 200px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-
-    .tooltip.show { display: block; }
-    .tooltip .tt-title { font-weight: 600; color: #f8fafc; margin-bottom: 0.4rem; }
-    .tooltip .tt-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.15rem 0; }
-    .tooltip .tt-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 0.4rem; vertical-align: middle; }
 
     .legend {
       display: flex;
@@ -298,61 +265,37 @@
     .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #94a3b8; }
     .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
 
-    /* Source breakdown */
-    .breakdown-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .breakdown-grid { grid-template-columns: 1fr; }
-      .funnel-flow { flex-direction: column; }
-      .funnel-arrow { transform: rotate(90deg); padding: 0.25rem 0; }
-    }
-
-    .breakdown-panel {
+    .tooltip {
+      display: none;
+      position: fixed;
       background: #1e293b;
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid #334155;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.75rem;
+      z-index: 100;
+      pointer-events: none;
+      min-width: 220px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
-    .breakdown-panel h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #f8fafc; }
-
-    .hbar-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .hbar-label { width: 80px; font-size: 0.8rem; color: #cbd5e1; text-align: right; flex-shrink: 0; }
-    .hbar-bg { flex: 1; height: 24px; background: #0f172a; border-radius: 6px; overflow: hidden; }
-    .hbar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 0.5rem; font-size: 0.7rem; font-weight: 600; color: #fff; transition: width 0.6s ease; min-width: fit-content; }
-    .hbar-val { width: 70px; font-size: 0.8rem; color: #94a3b8; text-align: right; flex-shrink: 0; }
+    .tooltip.show { display: block; }
+    .tooltip .tt-title { font-weight: 600; color: #f8fafc; margin-bottom: 0.5rem; }
+    .tooltip .tt-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.15rem 0; }
+    .tooltip .tt-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 0.4rem; vertical-align: middle; }
+    .tooltip .tt-divider { border-top: 1px solid #334155; margin: 0.3rem 0; }
 
     /* Table */
-    .table-panel {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid #334155;
-    }
-
-    .table-panel h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #f8fafc; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
 
     th {
       text-align: left;
-      padding: 0.6rem 0.75rem;
+      padding: 0.55rem 0.7rem;
       border-bottom: 2px solid #334155;
       color: #94a3b8;
       font-weight: 600;
       text-transform: uppercase;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 0.03em;
       cursor: pointer;
       user-select: none;
@@ -360,17 +303,26 @@
     }
 
     th:hover { color: #e2e8f0; }
-    th .sort-arrow { margin-left: 0.3rem; font-size: 0.6rem; }
+    th .sort-arrow { margin-left: 0.25rem; font-size: 0.55rem; }
 
-    td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #0f172a; color: #cbd5e1; }
+    td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #0f172a; color: #cbd5e1; }
     tr:hover td { background: #0f172a; }
 
-    .pct-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 99px; font-size: 0.7rem; font-weight: 600; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    th.num { text-align: right; }
+
+    .pct-badge { display: inline-block; padding: 0.12rem 0.45rem; border-radius: 99px; font-size: 0.68rem; font-weight: 600; }
     .pct-good { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
     .pct-warn { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
     .pct-bad { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+    .pct-info { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
 
     .refresh-note { font-size: 0.7rem; color: #475569; text-align: center; margin-top: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .funnel-split { flex-direction: column; gap: 1rem; align-items: center; }
+      .funnel-split::before { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -378,48 +330,42 @@
   <div class="auth-gate" id="authGate">
     <div class="auth-box">
       <h2>L3 Lead Funnel</h2>
-      <p>Internal dashboard — enter password to continue</p>
+      <p>Internal dashboard &mdash; enter password to continue</p>
       <input type="password" id="authInput" placeholder="Password" autofocus>
       <button id="authBtn">Unlock Dashboard</button>
       <div class="auth-error" id="authError">Incorrect password. Please try again.</div>
     </div>
   </div>
 
-  <!-- Dashboard (hidden until auth) -->
+  <!-- Dashboard -->
   <div class="dashboard" id="dashboardMain" style="display:none;">
     <header>
-      <h1>L3 Lead Funnel Dashboard <span class="source-tag">sandbox_core_tech.connections_platform_wbr.leads_stats</span></h1>
-      <p>TAS submission through delivery pipeline &mdash; New L3 Platform</p>
+      <h1>L3 Lead Funnel Dashboard</h1>
+      <p>TAS &rarr; ZUID coverage &rarr; Quality Service &rarr; Delivery</p>
     </header>
 
     <div class="controls" id="controls"></div>
     <div class="kpi-row" id="kpiRow"></div>
-    <div class="funnel-panel">
+
+    <div class="panel">
       <h2>Lead Flow</h2>
       <div id="funnelFlow"></div>
     </div>
-    <div class="chart-panel">
+
+    <div class="panel">
       <h2>Volume Over Time</h2>
       <div class="legend" id="legend"></div>
       <div class="chart-container"><div class="bar-chart" id="barChart"></div></div>
     </div>
-    <div class="kpi-row" id="idStatsRow"></div>
-    <div class="breakdown-grid">
-      <div class="breakdown-panel">
-        <h2>Leads by Source</h2>
-        <div id="sourceBreakdown"></div>
-      </div>
-      <div class="breakdown-panel">
-        <h2>Delivery Channels</h2>
-        <div id="deliveryBreakdown"></div>
-      </div>
-    </div>
-    <div class="table-panel">
+
+    <div class="panel">
       <h2>Period Breakdown</h2>
       <div style="overflow-x:auto;" id="tableWrap"></div>
     </div>
-    <div class="refresh-note">Data from Databricks: sandbox_core_tech.connections_platform_wbr.leads_stats &middot; Dec 2025 &ndash; Feb 2026</div>
+
+    <div class="refresh-note">Data: sandbox_core_tech.connections_platform_wbr.leads_stats &middot; Dec 2025 &ndash; Feb 2026</div>
   </div>
+
   <div class="tooltip" id="tooltip"></div>
 
   <script src="leads_data.js"></script>
@@ -460,41 +406,29 @@
     }
   </script>
   <script>
-    // ---- Parse raw data into daily aggregates per event ----
+    // ---- Parse data ----
     function parseData(raw) {
       const byDate = {};
       raw.forEach(r => {
         const d = r.lead_created_date;
         if (!byDate[d]) byDate[d] = {
           date: d,
-          submitted: 0, received: 0, archived: 0, delivered: 0, spam: 0,
-          zillow: 0, trulia: 0, redfin: 0, se: 0,
-          pacrm_del: 0, fub_del: 0, email_del: 0, builder_del: 0,
-          zuid: 0, unique_zuid: 0, tuid: 0, polarisid: 0,
+          submitted: 0, with_zuid: 0, no_zuid: 0,
+          archived: 0, spam: 0, delivered: 0,
         };
         const n = parseInt;
         const ev = r.event_name;
-        byDate[d].zuid += n(r.tot_zuid || 0);
-        byDate[d].unique_zuid += n(r.tot_unique_zuid || 0);
-        byDate[d].tuid += n(r.tot_tuid || 0);
-        byDate[d].polarisid += n(r.tot_polarisid || 0);
         if (ev === 'LEAD_SUBMITTED') {
-          byDate[d].submitted += n(r.tot_submitted || 0);
-          byDate[d].zillow += n(r.zillow || 0);
-          byDate[d].trulia += n(r.trulia || 0);
-          byDate[d].redfin += n(r.redfin || 0);
-          byDate[d].se += n(r.se || 0);
-        } else if (ev === 'LEAD_ROUTED_FOR_CONNECTION' || ev === 'LEAD_CONNECTION_RESULT_RECEIVED') {
-          byDate[d].received += n(r.tot_leads || 0);
+          const sub = n(r.tot_submitted || 0);
+          const zuid = n(r.tot_zuid || 0);
+          byDate[d].submitted += sub;
+          byDate[d].with_zuid += zuid;
+          byDate[d].no_zuid += (sub - zuid);
         } else if (ev === 'LEAD_ARCHIVED') {
           byDate[d].archived += n(r.tot_archived || 0);
           byDate[d].spam += n(r.tot_spam || 0);
         } else if (ev === 'LEAD_DELIVERED') {
           byDate[d].delivered += n(r.tot_delivered || 0);
-          byDate[d].pacrm_del += n(r.pacrm_del || 0);
-          byDate[d].fub_del += n(r.fub_del || 0);
-          byDate[d].email_del += n(r.email_del || 0);
-          byDate[d].builder_del += n(r.builder_del || 0);
         }
       });
       return Object.values(byDate).sort((a, b) => a.date.localeCompare(b.date));
@@ -507,77 +441,68 @@
     let sortCol = 'period';
     let sortDir = 'asc';
 
-    const COLORS = {
+    const C = {
       submitted: '#6366f1',
-      received: '#8b5cf6',
+      with_zuid: '#3b82f6',
+      no_zuid: '#f59e0b',
       spam: '#ef4444',
       delivered: '#22c55e',
     };
 
-    const LABELS = {
-      submitted: 'TAS Submitted',
-      received: 'Received by L3',
+    const L = {
+      submitted: 'Submitted (TAS)',
+      with_zuid: 'With ZUID',
+      no_zuid: 'No ZUID',
       spam: 'Archived (Spam)',
       delivered: 'Delivered',
     };
 
     // ---- Aggregation ----
-    function getWeekKey(dateStr) {
-      const d = new Date(dateStr + 'T00:00:00');
-      const jan1 = new Date(d.getFullYear(), 0, 1);
-      const wk = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
-      return d.getFullYear() + '-W' + String(wk).padStart(2, '0');
+    function weekKey(ds) {
+      const d = new Date(ds + 'T00:00:00');
+      const j = new Date(d.getFullYear(), 0, 1);
+      const w = Math.ceil(((d - j) / 86400000 + j.getDay() + 1) / 7);
+      return d.getFullYear() + '-W' + String(w).padStart(2, '0');
     }
 
-    function getWeekLabel(dateStr) {
-      const d = new Date(dateStr + 'T00:00:00');
-      const jan1 = new Date(d.getFullYear(), 0, 1);
-      const wk = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
-      return 'W' + wk + ' ' + d.getFullYear();
+    function weekLabel(ds) {
+      const d = new Date(ds + 'T00:00:00');
+      const j = new Date(d.getFullYear(), 0, 1);
+      const w = Math.ceil(((d - j) / 86400000 + j.getDay() + 1) / 7);
+      return 'W' + w + ' ' + d.getFullYear();
     }
 
-    function aggregate(data, groupBy) {
-      const groups = {};
+    function aggregate(data, gb) {
+      const g = {};
       data.forEach(row => {
         let key, label;
         const d = new Date(row.date + 'T00:00:00');
-        if (groupBy === 'day') { key = row.date; label = row.date; }
-        else if (groupBy === 'week') { key = getWeekKey(row.date); label = getWeekLabel(row.date); }
-        else if (groupBy === 'month') {
-          key = row.date.slice(0, 7);
-          label = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-        } else {
-          key = String(d.getFullYear());
-          label = key;
-        }
+        if (gb === 'day') { key = row.date; label = row.date; }
+        else if (gb === 'week') { key = weekKey(row.date); label = weekLabel(row.date); }
+        else if (gb === 'month') { key = row.date.slice(0, 7); label = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short' }); }
+        else { key = String(d.getFullYear()); label = key; }
 
-        if (!groups[key]) groups[key] = {
-          key, label, submitted: 0, received: 0, archived: 0, delivered: 0, spam: 0,
-          zillow: 0, trulia: 0, redfin: 0, se: 0,
-          pacrm_del: 0, fub_del: 0, email_del: 0, builder_del: 0,
-          zuid: 0, unique_zuid: 0, tuid: 0, polarisid: 0,
-        };
-        const g = groups[key];
-        g.submitted += row.submitted;
-        g.received += row.received;
-        g.archived += row.archived;
-        g.delivered += row.delivered;
-        g.spam += row.spam;
-        g.zillow += row.zillow;
-        g.trulia += row.trulia;
-        g.redfin += row.redfin;
-        g.se += row.se;
-        g.pacrm_del += row.pacrm_del;
-        g.fub_del += row.fub_del;
-        g.email_del += row.email_del;
-        g.builder_del += row.builder_del;
-        g.zuid += row.zuid;
-        g.unique_zuid += row.unique_zuid;
-        g.tuid += row.tuid;
-        g.polarisid += row.polarisid;
+        if (!g[key]) g[key] = { key, label, submitted: 0, with_zuid: 0, no_zuid: 0, archived: 0, spam: 0, delivered: 0 };
+        const o = g[key];
+        o.submitted += row.submitted;
+        o.with_zuid += row.with_zuid;
+        o.no_zuid += row.no_zuid;
+        o.archived += row.archived;
+        o.spam += row.spam;
+        o.delivered += row.delivered;
       });
-      return Object.values(groups).sort((a, b) => a.key.localeCompare(b.key));
+      return Object.values(g).sort((a, b) => a.key.localeCompare(b.key));
     }
+
+    function totals(agg) {
+      return agg.reduce((a, r) => {
+        a.submitted += r.submitted; a.with_zuid += r.with_zuid; a.no_zuid += r.no_zuid;
+        a.archived += r.archived; a.spam += r.spam; a.delivered += r.delivered;
+        return a;
+      }, { submitted: 0, with_zuid: 0, no_zuid: 0, archived: 0, spam: 0, delivered: 0 });
+    }
+
+    function pct(n, d) { return d > 0 ? ((n / d) * 100).toFixed(1) : '0.0'; }
 
     // ---- Render Controls ----
     function renderControls() {
@@ -589,133 +514,135 @@
               <button class="toggle-btn ${g === groupBy ? 'active' : ''}" data-group="${g}">${g.charAt(0).toUpperCase() + g.slice(1)}</button>
             `).join('')}
           </div>
-        </div>
-      `;
+        </div>`;
       document.querySelectorAll('.toggle-btn[data-group]').forEach(btn => {
         btn.addEventListener('click', () => { groupBy = btn.dataset.group; renderAll(); });
       });
     }
 
     // ---- Render KPIs ----
-    function renderKPIs(agg) {
-      const t = agg.reduce((acc, r) => {
-        acc.submitted += r.submitted; acc.received += r.received;
-        acc.archived += r.archived; acc.delivered += r.delivered; acc.spam += r.spam;
-        return acc;
-      }, { submitted: 0, received: 0, archived: 0, delivered: 0, spam: 0 });
-
-      const recvPct = ((t.received / t.submitted) * 100).toFixed(1);
-      const spamPct = ((t.spam / t.archived) * 100).toFixed(1);
-      const archPct = ((t.archived / t.submitted) * 100).toFixed(1);
-      const delPct = ((t.delivered / t.submitted) * 100).toFixed(1);
-
+    function renderKPIs(t) {
       const kpis = [
-        { label: 'TAS Submitted', value: t.submitted.toLocaleString(), sub: 'Total leads from TAS', color: COLORS.submitted },
-        { label: 'Received by New L3', value: t.received.toLocaleString(), sub: `${recvPct}% of submitted`, color: COLORS.received },
-        { label: 'Archived (Total)', value: t.archived.toLocaleString(), sub: `${archPct}% of submitted (${spamPct}% spam)`, color: COLORS.spam },
-        { label: 'Delivered', value: t.delivered.toLocaleString(), sub: `${delPct}% end-to-end delivery`, color: COLORS.delivered },
+        { label: 'TAS Submitted', value: t.submitted.toLocaleString(), sub: 'Total leads submitted', color: C.submitted },
+        { label: 'With ZUID', value: t.with_zuid.toLocaleString(), sub: `${pct(t.with_zuid, t.submitted)}% of submitted`, color: C.with_zuid },
+        { label: 'No ZUID', value: t.no_zuid.toLocaleString(), sub: `${pct(t.no_zuid, t.submitted)}% of submitted`, color: C.no_zuid },
+        { label: 'Archived (Spam)', value: t.spam.toLocaleString(), sub: `${pct(t.spam, t.submitted)}% of submitted`, color: C.spam },
+        { label: 'Delivered', value: t.delivered.toLocaleString(), sub: `${pct(t.delivered, t.submitted)}% of submitted`, color: C.delivered },
       ];
-
       document.getElementById('kpiRow').innerHTML = kpis.map(k => `
         <div class="kpi-card">
           <div class="accent" style="background:${k.color}"></div>
           <div class="label">${k.label}</div>
           <div class="value">${k.value}</div>
           <div class="sub">${k.sub}</div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
     // ---- Render Funnel ----
-    function renderFunnel(agg) {
-      const t = agg.reduce((acc, r) => {
-        acc.submitted += r.submitted; acc.received += r.received;
-        acc.archived += r.archived; acc.delivered += r.delivered; acc.spam += r.spam;
-        return acc;
-      }, { submitted: 0, received: 0, archived: 0, delivered: 0, spam: 0 });
-
-      const recvPct = ((t.received / t.submitted) * 100).toFixed(1);
-      const delFromRecv = ((t.delivered / t.submitted) * 100).toFixed(1);
-      const spamPct = ((t.spam / t.archived) * 100).toFixed(1);
-      const archPct = ((t.archived / t.submitted) * 100).toFixed(1);
-
+    function renderFunnel(t) {
       document.getElementById('funnelFlow').innerHTML = `
-        <div class="funnel-flow">
-          <div class="funnel-node" style="background:rgba(99,102,241,0.12); border:1px solid rgba(99,102,241,0.3);">
-            <div class="node-count" style="color:${COLORS.submitted}">${t.submitted.toLocaleString()}</div>
-            <div class="node-label">TAS Submitted</div>
-            <div class="node-pct" style="color:#94a3b8;">100%</div>
-          </div>
-          <div class="funnel-arrow">
-            <div class="arrow-line"></div>
-            <div class="arrow-label">${recvPct}%</div>
-          </div>
-          <div class="funnel-node" style="background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.3);">
-            <div class="node-count" style="color:${COLORS.received}">${t.received.toLocaleString()}</div>
-            <div class="node-label">Received by New L3</div>
-            <div class="node-pct" style="color:${COLORS.received};">${recvPct}% of submitted</div>
-          </div>
-          <div class="funnel-arrow">
-            <div class="arrow-line"></div>
-            <div class="arrow-label">${delFromRecv}%</div>
-          </div>
-          <div class="funnel-node" style="background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.3);">
-            <div class="node-count" style="color:${COLORS.delivered}">${t.delivered.toLocaleString()}</div>
-            <div class="node-label">Delivered</div>
-            <div class="node-pct" style="color:${COLORS.delivered};">${delFromRecv}% end-to-end</div>
-          </div>
-        </div>
-        <div class="spam-branch">
-          <div style="display:flex; flex-direction:column; align-items:center;">
-            <div class="branch-line"></div>
-            <div class="spam-node">
-              <div class="node-count">${t.archived.toLocaleString()}</div>
-              <div class="node-label">Archived by Quality Service</div>
-              <div class="node-pct">${archPct}% of submitted &middot; ${spamPct}% flagged spam</div>
+        <div class="funnel-wrapper">
+          <!-- Submitted -->
+          <div class="funnel-row">
+            <div class="funnel-block" style="background:rgba(99,102,241,0.12); border:1px solid rgba(99,102,241,0.3); min-width:320px;">
+              <div class="fb-count" style="color:${C.submitted}">${t.submitted.toLocaleString()}</div>
+              <div class="fb-label" style="color:#c7d2fe;">Submitted by TAS</div>
+              <div class="fb-pct" style="color:#94a3b8;">100%</div>
             </div>
           </div>
-        </div>
-      `;
+
+          <div class="funnel-pipe"><div class="pipe-line"></div></div>
+
+          <!-- ZUID Split -->
+          <div class="funnel-split">
+            <div class="split-branch">
+              <div class="branch-pipe"></div>
+              <div class="funnel-block" style="background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.3);">
+                <div class="fb-count" style="color:${C.with_zuid}">${t.with_zuid.toLocaleString()}</div>
+                <div class="fb-label" style="color:#93c5fd;">With ZUID</div>
+                <div class="fb-pct" style="color:${C.with_zuid};">${pct(t.with_zuid, t.submitted)}%</div>
+              </div>
+            </div>
+            <div class="split-branch">
+              <div class="branch-pipe"></div>
+              <div class="funnel-block" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.3);">
+                <div class="fb-count" style="color:${C.no_zuid}">${t.no_zuid.toLocaleString()}</div>
+                <div class="fb-label" style="color:#fcd34d;">No ZUID</div>
+                <div class="fb-pct" style="color:${C.no_zuid};">${pct(t.no_zuid, t.submitted)}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="funnel-pipe"><div class="pipe-line"></div></div>
+
+          <!-- Spam / Delivered split -->
+          <div class="funnel-split">
+            <div class="split-branch">
+              <div class="branch-pipe"></div>
+              <div class="funnel-block" style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3);">
+                <div class="fb-count" style="color:${C.spam}">${t.spam.toLocaleString()}</div>
+                <div class="fb-label" style="color:#fca5a5;">Archived as Spam</div>
+                <div class="fb-pct" style="color:${C.spam};">${pct(t.spam, t.submitted)}% of submitted</div>
+              </div>
+            </div>
+            <div class="split-branch">
+              <div class="branch-pipe"></div>
+              <div class="funnel-block" style="background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.3); min-width: 200px;">
+                <div class="fb-count" style="color:${C.delivered}">${t.delivered.toLocaleString()}</div>
+                <div class="fb-label" style="color:#86efac;">Delivered</div>
+                <div class="fb-pct" style="color:${C.delivered};">${pct(t.delivered, t.submitted)}% of submitted</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
     }
 
     // ---- Render Bar Chart ----
     function renderBarChart(agg) {
       const maxVal = Math.max(...agg.map(r => r.submitted));
+      const fields = ['delivered', 'spam', 'no_zuid'];
+      const fieldColors = [C.delivered, C.spam, C.no_zuid];
 
-      document.getElementById('legend').innerHTML = Object.entries(LABELS).map(([k, v]) => `
-        <div class="legend-item"><div class="legend-dot" style="background:${COLORS[k]}"></div>${v}</div>
-      `).join('');
+      document.getElementById('legend').innerHTML = [
+        ['with_zuid', 'With ZUID (non-spam, delivered)'],
+        ['no_zuid', 'No ZUID'],
+        ['spam', 'Archived (Spam)'],
+        ['delivered', 'Delivered'],
+      ].map(([k, v]) => `<div class="legend-item"><div class="legend-dot" style="background:${C[k]}"></div>${v}</div>`).join('');
 
-      const chartEl = document.getElementById('barChart');
-      chartEl.innerHTML = agg.map((row, i) => {
-        const subH = (row.submitted / maxVal) * 220;
-        const delH = (row.delivered / maxVal) * 220;
-        const spamH = (row.spam / maxVal) * 220;
+      const el = document.getElementById('barChart');
+      el.innerHTML = agg.map((row, i) => {
+        const h = (v) => (v / maxVal) * 240;
+        const deliveredH = h(row.delivered);
+        const spamH = h(row.spam);
+        const noZuidH = h(row.no_zuid);
+        const withZuidOther = h(Math.max(0, row.submitted - row.delivered - row.spam - row.no_zuid));
         return `
           <div class="bar-group">
-            <div class="bar-stack" style="height:${subH}px">
-              <div class="bar-segment" style="height:${delH}px; background:${COLORS.delivered};" data-idx="${i}"></div>
-              <div class="bar-segment" style="height:${spamH}px; background:${COLORS.spam};" data-idx="${i}"></div>
-              <div class="bar-segment" style="height:${subH - delH - spamH}px; background:${COLORS.received}; opacity:0.4;" data-idx="${i}"></div>
+            <div class="bar-stack" style="height:${h(row.submitted)}px">
+              <div class="bar-segment" style="height:${deliveredH}px; background:${C.delivered};" data-idx="${i}"></div>
+              <div class="bar-segment" style="height:${spamH}px; background:${C.spam};" data-idx="${i}"></div>
+              <div class="bar-segment" style="height:${noZuidH}px; background:${C.no_zuid};" data-idx="${i}"></div>
+              <div class="bar-segment" style="height:${withZuidOther}px; background:${C.with_zuid}; opacity:0.4;" data-idx="${i}"></div>
             </div>
             <div class="bar-label">${groupBy === 'day' ? row.label.slice(5) : row.label}</div>
-          </div>
-        `;
+          </div>`;
       }).join('');
 
       const tooltip = document.getElementById('tooltip');
-      chartEl.querySelectorAll('.bar-segment').forEach(seg => {
-        seg.addEventListener('mouseenter', (e) => {
-          const idx = parseInt(seg.dataset.idx);
-          const row = agg[idx];
+      el.querySelectorAll('.bar-segment').forEach(seg => {
+        seg.addEventListener('mouseenter', () => {
+          const row = agg[parseInt(seg.dataset.idx)];
           tooltip.className = 'tooltip show';
           tooltip.innerHTML = `
             <div class="tt-title">${row.label}</div>
-            <div class="tt-row"><span><span class="tt-dot" style="background:${COLORS.submitted}"></span>TAS Submitted</span><span>${row.submitted.toLocaleString()}</span></div>
-            <div class="tt-row"><span><span class="tt-dot" style="background:${COLORS.received}"></span>Received by L3</span><span>${row.received.toLocaleString()}</span></div>
-            <div class="tt-row"><span><span class="tt-dot" style="background:${COLORS.spam}"></span>Archived (Spam)</span><span>${row.spam.toLocaleString()}</span></div>
-            <div class="tt-row"><span><span class="tt-dot" style="background:${COLORS.delivered}"></span>Delivered</span><span>${row.delivered.toLocaleString()}</span></div>
-          `;
+            <div class="tt-row"><span><span class="tt-dot" style="background:${C.submitted}"></span>Submitted</span><span>${row.submitted.toLocaleString()}</span></div>
+            <div class="tt-divider"></div>
+            <div class="tt-row"><span><span class="tt-dot" style="background:${C.with_zuid}"></span>With ZUID</span><span>${row.with_zuid.toLocaleString()} (${pct(row.with_zuid, row.submitted)}%)</span></div>
+            <div class="tt-row"><span><span class="tt-dot" style="background:${C.no_zuid}"></span>No ZUID</span><span>${row.no_zuid.toLocaleString()} (${pct(row.no_zuid, row.submitted)}%)</span></div>
+            <div class="tt-divider"></div>
+            <div class="tt-row"><span><span class="tt-dot" style="background:${C.spam}"></span>Spam Archived</span><span>${row.spam.toLocaleString()} (${pct(row.spam, row.submitted)}%)</span></div>
+            <div class="tt-row"><span><span class="tt-dot" style="background:${C.delivered}"></span>Delivered</span><span>${row.delivered.toLocaleString()} (${pct(row.delivered, row.submitted)}%)</span></div>`;
         });
         seg.addEventListener('mousemove', (e) => {
           tooltip.style.left = (e.clientX + 12) + 'px';
@@ -725,145 +652,64 @@
       });
     }
 
-    // ---- Render ID Stats ----
-    function renderIdStats(agg) {
-      const t = agg.reduce((acc, r) => {
-        acc.zuid += r.zuid; acc.unique_zuid += r.unique_zuid;
-        acc.tuid += r.tuid; acc.polarisid += r.polarisid;
-        acc.submitted += r.submitted;
-        return acc;
-      }, { zuid: 0, unique_zuid: 0, tuid: 0, polarisid: 0, submitted: 0 });
-
-      const zuidPct = ((t.zuid / t.submitted) * 100).toFixed(1);
-      const polarisidPct = ((t.polarisid / t.submitted) * 100).toFixed(1);
-      const tuidPct = ((t.tuid / t.submitted) * 100).toFixed(1);
-
-      const stats = [
-        { label: 'Total ZUID', value: t.zuid.toLocaleString(), sub: `${zuidPct}% of submitted leads`, color: '#3b82f6' },
-        { label: 'Unique ZUID', value: t.unique_zuid.toLocaleString(), sub: `${((t.unique_zuid / t.zuid) * 100).toFixed(1)}% unique rate`, color: '#06b6d4' },
-        { label: 'Total TUID', value: t.tuid.toLocaleString(), sub: `${tuidPct}% of submitted leads`, color: '#f59e0b' },
-        { label: 'Polaris ID', value: t.polarisid.toLocaleString(), sub: `${polarisidPct}% of submitted leads`, color: '#a855f7' },
-      ];
-
-      document.getElementById('idStatsRow').innerHTML = `
-        <div style="grid-column: 1 / -1; font-size: 1.1rem; font-weight: 600; color: #f8fafc; margin-bottom: -0.5rem;">Sender Identity Stats</div>
-        ${stats.map(k => `
-          <div class="kpi-card">
-            <div class="accent" style="background:${k.color}"></div>
-            <div class="label">${k.label}</div>
-            <div class="value">${k.value}</div>
-            <div class="sub">${k.sub}</div>
-          </div>
-        `).join('')}
-      `;
-    }
-
-    // ---- Render Source Breakdown ----
-    function renderSourceBreakdown(agg) {
-      const t = agg.reduce((acc, r) => {
-        acc.zillow += r.zillow; acc.trulia += r.trulia; acc.redfin += r.redfin; acc.se += r.se;
-        return acc;
-      }, { zillow: 0, trulia: 0, redfin: 0, se: 0 });
-
-      const sources = [
-        { name: 'Zillow', val: t.zillow, color: '#6366f1' },
-        { name: 'Trulia', val: t.trulia, color: '#8b5cf6' },
-        { name: 'Redfin', val: t.redfin, color: '#ec4899' },
-        { name: 'StreetEasy', val: t.se, color: '#f59e0b' },
-      ].sort((a, b) => b.val - a.val);
-
-      const maxVal = sources[0].val;
-      document.getElementById('sourceBreakdown').innerHTML = sources.map(s => `
-        <div class="hbar-row">
-          <div class="hbar-label">${s.name}</div>
-          <div class="hbar-bg">
-            <div class="hbar-fill" style="width:${(s.val / maxVal) * 100}%; background:${s.color};">${((s.val / sources.reduce((a, x) => a + x.val, 0)) * 100).toFixed(1)}%</div>
-          </div>
-          <div class="hbar-val">${s.val.toLocaleString()}</div>
-        </div>
-      `).join('');
-    }
-
-    // ---- Render Delivery Breakdown ----
-    function renderDeliveryBreakdown(agg) {
-      const t = agg.reduce((acc, r) => {
-        acc.pacrm += r.pacrm_del; acc.fub += r.fub_del; acc.email += r.email_del; acc.builder += r.builder_del;
-        return acc;
-      }, { pacrm: 0, fub: 0, email: 0, builder: 0 });
-
-      const channels = [
-        { name: 'PA CRM', val: t.pacrm, color: '#22c55e' },
-        { name: 'Email', val: t.email, color: '#3b82f6' },
-        { name: 'Builder', val: t.builder, color: '#f59e0b' },
-        { name: 'FUB', val: t.fub, color: '#ec4899' },
-      ].sort((a, b) => b.val - a.val);
-
-      const maxVal = channels[0].val;
-      document.getElementById('deliveryBreakdown').innerHTML = channels.map(c => `
-        <div class="hbar-row">
-          <div class="hbar-label">${c.name}</div>
-          <div class="hbar-bg">
-            <div class="hbar-fill" style="width:${(c.val / maxVal) * 100}%; background:${c.color};">${((c.val / channels.reduce((a, x) => a + x.val, 0)) * 100).toFixed(1)}%</div>
-          </div>
-          <div class="hbar-val">${c.val.toLocaleString()}</div>
-        </div>
-      `).join('');
-    }
-
     // ---- Render Table ----
     function renderTable(agg) {
+      const cols = [
+        { key: 'period', label: 'Period', cls: '' },
+        { key: 'submitted', label: 'Submitted', cls: 'num' },
+        { key: 'with_zuid', label: 'With ZUID', cls: 'num' },
+        { key: 'no_zuid', label: 'No ZUID', cls: 'num' },
+        { key: 'zuidPct', label: 'ZUID %', cls: 'num' },
+        { key: 'spam', label: 'Spam Archived', cls: 'num' },
+        { key: 'spamPct', label: 'Spam %', cls: 'num' },
+        { key: 'delivered', label: 'Delivered', cls: 'num' },
+        { key: 'delPct', label: 'Delivery %', cls: 'num' },
+      ];
+
       const sorted = [...agg].sort((a, b) => {
         let va, vb;
         if (sortCol === 'period') { va = a.key; vb = b.key; }
-        else if (sortCol === 'spamRate') { va = a.spam / (a.archived || 1); vb = b.spam / (b.archived || 1); }
-        else if (sortCol === 'deliveryRate') { va = a.delivered / (a.submitted || 1); vb = b.delivered / (b.submitted || 1); }
+        else if (sortCol === 'zuidPct') { va = a.with_zuid / (a.submitted || 1); vb = b.with_zuid / (b.submitted || 1); }
+        else if (sortCol === 'spamPct') { va = a.spam / (a.submitted || 1); vb = b.spam / (b.submitted || 1); }
+        else if (sortCol === 'delPct') { va = a.delivered / (a.submitted || 1); vb = b.delivered / (b.submitted || 1); }
         else { va = a[sortCol]; vb = b[sortCol]; }
         if (typeof va === 'string') return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
         return sortDir === 'asc' ? va - vb : vb - va;
       });
 
-      const cols = [
-        { key: 'period', label: 'Period' },
-        { key: 'submitted', label: 'TAS Submitted' },
-        { key: 'received', label: 'Received (L3)' },
-        { key: 'archived', label: 'Archived' },
-        { key: 'spam', label: 'Spam' },
-        { key: 'delivered', label: 'Delivered' },
-        { key: 'spamRate', label: 'Spam Rate' },
-        { key: 'deliveryRate', label: 'Delivery Rate' },
-      ];
-
-      const arrow = (col) => sortCol === col ? (sortDir === 'asc' ? ' &#9650;' : ' &#9660;') : '';
+      const arrow = (c) => sortCol === c ? (sortDir === 'asc' ? ' &#9650;' : ' &#9660;') : '';
 
       document.getElementById('tableWrap').innerHTML = `
         <table>
-          <thead><tr>${cols.map(c => `<th data-col="${c.key}">${c.label}<span class="sort-arrow">${arrow(c.key)}</span></th>`).join('')}</tr></thead>
+          <thead><tr>${cols.map(c => `<th class="${c.cls}" data-col="${c.key}">${c.label}<span class="sort-arrow">${arrow(c.key)}</span></th>`).join('')}</tr></thead>
           <tbody>
-            ${sorted.map(row => {
-              const spamRate = row.archived > 0 ? ((row.spam / row.archived) * 100).toFixed(1) : '0.0';
-              const delRate = row.submitted > 0 ? ((row.delivered / row.submitted) * 100).toFixed(1) : '0.0';
-              const spamClass = parseFloat(spamRate) > 40 ? 'pct-bad' : parseFloat(spamRate) > 30 ? 'pct-warn' : 'pct-good';
-              const delClass = parseFloat(delRate) > 75 ? 'pct-good' : parseFloat(delRate) > 65 ? 'pct-warn' : 'pct-bad';
+            ${sorted.map(r => {
+              const zp = pct(r.with_zuid, r.submitted);
+              const sp = pct(r.spam, r.submitted);
+              const dp = pct(r.delivered, r.submitted);
+              const zClass = parseFloat(zp) > 85 ? 'pct-good' : parseFloat(zp) > 75 ? 'pct-warn' : 'pct-bad';
+              const sClass = parseFloat(sp) > 10 ? 'pct-bad' : parseFloat(sp) > 5 ? 'pct-warn' : 'pct-good';
+              const dClass = parseFloat(dp) > 75 ? 'pct-good' : parseFloat(dp) > 65 ? 'pct-warn' : 'pct-bad';
               return `<tr>
-                <td><strong>${row.label}</strong></td>
-                <td>${row.submitted.toLocaleString()}</td>
-                <td>${row.received.toLocaleString()}</td>
-                <td>${row.archived.toLocaleString()}</td>
-                <td>${row.spam.toLocaleString()}</td>
-                <td>${row.delivered.toLocaleString()}</td>
-                <td><span class="pct-badge ${spamClass}">${spamRate}%</span></td>
-                <td><span class="pct-badge ${delClass}">${delRate}%</span></td>
+                <td><strong>${r.label}</strong></td>
+                <td class="num">${r.submitted.toLocaleString()}</td>
+                <td class="num">${r.with_zuid.toLocaleString()}</td>
+                <td class="num">${r.no_zuid.toLocaleString()}</td>
+                <td class="num"><span class="pct-badge ${zClass}">${zp}%</span></td>
+                <td class="num">${r.spam.toLocaleString()}</td>
+                <td class="num"><span class="pct-badge ${sClass}">${sp}%</span></td>
+                <td class="num">${r.delivered.toLocaleString()}</td>
+                <td class="num"><span class="pct-badge ${dClass}">${dp}%</span></td>
               </tr>`;
             }).join('')}
           </tbody>
-        </table>
-      `;
+        </table>`;
 
       document.querySelectorAll('th[data-col]').forEach(th => {
         th.addEventListener('click', () => {
-          const col = th.dataset.col;
-          if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
-          else { sortCol = col; sortDir = 'asc'; }
+          const c = th.dataset.col;
+          if (sortCol === c) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+          else { sortCol = c; sortDir = 'asc'; }
           renderTable(agg);
         });
       });
@@ -872,13 +718,11 @@
     // ---- Render All ----
     function renderAll() {
       const agg = aggregate(dailyData, groupBy);
+      const t = totals(agg);
       renderControls();
-      renderKPIs(agg);
-      renderFunnel(agg);
+      renderKPIs(t);
+      renderFunnel(t);
       renderBarChart(agg);
-      renderIdStats(agg);
-      renderSourceBreakdown(agg);
-      renderDeliveryBreakdown(agg);
       renderTable(agg);
     }
 
