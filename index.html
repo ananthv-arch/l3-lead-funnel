@@ -341,7 +341,7 @@
   <div class="dashboard" id="dashboardMain" style="display:none;">
     <header>
       <h1>L3 Lead Funnel Dashboard</h1>
-      <p>TAS &rarr; ZUID coverage &rarr; Quality Service &rarr; Delivery</p>
+      <p>TAS &rarr; Identity Coverage (ZUID / TUID / Polaris ID) &rarr; Quality Service &rarr; Delivery</p>
     </header>
 
     <div class="controls" id="controls"></div>
@@ -414,6 +414,7 @@
         if (!byDate[d]) byDate[d] = {
           date: d,
           submitted: 0, with_zuid: 0, no_zuid: 0,
+          with_tuid: 0, no_tuid: 0, with_polaris: 0, no_polaris: 0,
           archived: 0, spam: 0, delivered: 0,
         };
         const n = parseInt;
@@ -421,9 +422,15 @@
         if (ev === 'LEAD_SUBMITTED') {
           const sub = n(r.tot_submitted || 0);
           const zuid = n(r.tot_zuid || 0);
+          const tuid = n(r.tot_tuid || 0);
+          const polaris = n(r.tot_polarisid || 0);
           byDate[d].submitted += sub;
           byDate[d].with_zuid += zuid;
           byDate[d].no_zuid += (sub - zuid);
+          byDate[d].with_tuid += tuid;
+          byDate[d].no_tuid += (sub - tuid);
+          byDate[d].with_polaris += polaris;
+          byDate[d].no_polaris += (sub - polaris);
         } else if (ev === 'LEAD_ARCHIVED') {
           byDate[d].archived += n(r.tot_archived || 0);
           byDate[d].spam += n(r.tot_spam || 0);
@@ -445,6 +452,10 @@
       submitted: '#6366f1',
       with_zuid: '#3b82f6',
       no_zuid: '#f59e0b',
+      with_tuid: '#06b6d4',
+      no_tuid: '#fb923c',
+      with_polaris: '#a855f7',
+      no_polaris: '#f472b6',
       spam: '#ef4444',
       delivered: '#22c55e',
     };
@@ -482,11 +493,15 @@
         else if (gb === 'month') { key = row.date.slice(0, 7); label = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short' }); }
         else { key = String(d.getFullYear()); label = key; }
 
-        if (!g[key]) g[key] = { key, label, submitted: 0, with_zuid: 0, no_zuid: 0, archived: 0, spam: 0, delivered: 0 };
+        if (!g[key]) g[key] = { key, label, submitted: 0, with_zuid: 0, no_zuid: 0, with_tuid: 0, no_tuid: 0, with_polaris: 0, no_polaris: 0, archived: 0, spam: 0, delivered: 0 };
         const o = g[key];
         o.submitted += row.submitted;
         o.with_zuid += row.with_zuid;
         o.no_zuid += row.no_zuid;
+        o.with_tuid += row.with_tuid;
+        o.no_tuid += row.no_tuid;
+        o.with_polaris += row.with_polaris;
+        o.no_polaris += row.no_polaris;
         o.archived += row.archived;
         o.spam += row.spam;
         o.delivered += row.delivered;
@@ -497,9 +512,11 @@
     function totals(agg) {
       return agg.reduce((a, r) => {
         a.submitted += r.submitted; a.with_zuid += r.with_zuid; a.no_zuid += r.no_zuid;
+        a.with_tuid += r.with_tuid; a.no_tuid += r.no_tuid;
+        a.with_polaris += r.with_polaris; a.no_polaris += r.no_polaris;
         a.archived += r.archived; a.spam += r.spam; a.delivered += r.delivered;
         return a;
-      }, { submitted: 0, with_zuid: 0, no_zuid: 0, archived: 0, spam: 0, delivered: 0 });
+      }, { submitted: 0, with_zuid: 0, no_zuid: 0, with_tuid: 0, no_tuid: 0, with_polaris: 0, no_polaris: 0, archived: 0, spam: 0, delivered: 0 });
     }
 
     function pct(n, d) { return d > 0 ? ((n / d) * 100).toFixed(1) : '0.0'; }
@@ -525,7 +542,8 @@
       const kpis = [
         { label: 'TAS Submitted', value: t.submitted.toLocaleString(), sub: 'Total leads submitted', color: C.submitted },
         { label: 'With ZUID', value: t.with_zuid.toLocaleString(), sub: `${pct(t.with_zuid, t.submitted)}% of submitted`, color: C.with_zuid },
-        { label: 'No ZUID', value: t.no_zuid.toLocaleString(), sub: `${pct(t.no_zuid, t.submitted)}% of submitted`, color: C.no_zuid },
+        { label: 'With TUID', value: t.with_tuid.toLocaleString(), sub: `${pct(t.with_tuid, t.submitted)}% of submitted`, color: C.with_tuid },
+        { label: 'With Polaris ID', value: t.with_polaris.toLocaleString(), sub: `${pct(t.with_polaris, t.submitted)}% of submitted`, color: C.with_polaris },
         { label: 'Archived (Spam)', value: t.spam.toLocaleString(), sub: `${pct(t.spam, t.submitted)}% of submitted`, color: C.spam },
         { label: 'Delivered', value: t.delivered.toLocaleString(), sub: `${pct(t.delivered, t.submitted)}% of submitted`, color: C.delivered },
       ];
@@ -553,22 +571,72 @@
 
           <div class="funnel-pipe"><div class="pipe-line"></div></div>
 
-          <!-- ZUID Split -->
-          <div class="funnel-split">
-            <div class="split-branch">
-              <div class="branch-pipe"></div>
-              <div class="funnel-block" style="background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.3);">
-                <div class="fb-count" style="color:${C.with_zuid}">${t.with_zuid.toLocaleString()}</div>
-                <div class="fb-label" style="color:#93c5fd;">With ZUID</div>
-                <div class="fb-pct" style="color:${C.with_zuid};">${pct(t.with_zuid, t.submitted)}%</div>
+          <!-- Identity Splits -->
+          <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; width:100%;">
+            <!-- ZUID -->
+            <div style="flex:1; min-width:200px;">
+              <div style="text-align:center; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:#64748b; margin-bottom:0.5rem;">ZUID Coverage</div>
+              <div class="funnel-split" style="gap:0.75rem;">
+                <div class="split-branch">
+                  <div class="branch-pipe"></div>
+                  <div class="funnel-block" style="background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.3); min-width:120px; padding:0.85rem 1rem;">
+                    <div class="fb-count" style="color:${C.with_zuid}; font-size:1.4rem;">${t.with_zuid.toLocaleString()}</div>
+                    <div class="fb-label" style="color:#93c5fd;">With ZUID</div>
+                    <div class="fb-pct" style="color:${C.with_zuid};">${pct(t.with_zuid, t.submitted)}%</div>
+                  </div>
+                </div>
+                <div class="split-branch">
+                  <div class="branch-pipe"></div>
+                  <div class="funnel-block" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.3); min-width:120px; padding:0.85rem 1rem;">
+                    <div class="fb-count" style="color:${C.no_zuid}; font-size:1.4rem;">${t.no_zuid.toLocaleString()}</div>
+                    <div class="fb-label" style="color:#fcd34d;">No ZUID</div>
+                    <div class="fb-pct" style="color:${C.no_zuid};">${pct(t.no_zuid, t.submitted)}%</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="split-branch">
-              <div class="branch-pipe"></div>
-              <div class="funnel-block" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.3);">
-                <div class="fb-count" style="color:${C.no_zuid}">${t.no_zuid.toLocaleString()}</div>
-                <div class="fb-label" style="color:#fcd34d;">No ZUID</div>
-                <div class="fb-pct" style="color:${C.no_zuid};">${pct(t.no_zuid, t.submitted)}%</div>
+            <!-- TUID -->
+            <div style="flex:1; min-width:200px;">
+              <div style="text-align:center; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:#64748b; margin-bottom:0.5rem;">TUID Coverage</div>
+              <div class="funnel-split" style="gap:0.75rem;">
+                <div class="split-branch">
+                  <div class="branch-pipe"></div>
+                  <div class="funnel-block" style="background:rgba(6,182,212,0.12); border:1px solid rgba(6,182,212,0.3); min-width:120px; padding:0.85rem 1rem;">
+                    <div class="fb-count" style="color:${C.with_tuid}; font-size:1.4rem;">${t.with_tuid.toLocaleString()}</div>
+                    <div class="fb-label" style="color:#67e8f9;">With TUID</div>
+                    <div class="fb-pct" style="color:${C.with_tuid};">${pct(t.with_tuid, t.submitted)}%</div>
+                  </div>
+                </div>
+                <div class="split-branch">
+                  <div class="branch-pipe"></div>
+                  <div class="funnel-block" style="background:rgba(251,146,60,0.12); border:1px solid rgba(251,146,60,0.3); min-width:120px; padding:0.85rem 1rem;">
+                    <div class="fb-count" style="color:${C.no_tuid}; font-size:1.4rem;">${t.no_tuid.toLocaleString()}</div>
+                    <div class="fb-label" style="color:#fdba74;">No TUID</div>
+                    <div class="fb-pct" style="color:${C.no_tuid};">${pct(t.no_tuid, t.submitted)}%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Polaris ID -->
+            <div style="flex:1; min-width:200px;">
+              <div style="text-align:center; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:#64748b; margin-bottom:0.5rem;">Polaris ID Coverage</div>
+              <div class="funnel-split" style="gap:0.75rem;">
+                <div class="split-branch">
+                  <div class="branch-pipe"></div>
+                  <div class="funnel-block" style="background:rgba(168,85,247,0.12); border:1px solid rgba(168,85,247,0.3); min-width:120px; padding:0.85rem 1rem;">
+                    <div class="fb-count" style="color:${C.with_polaris}; font-size:1.4rem;">${t.with_polaris.toLocaleString()}</div>
+                    <div class="fb-label" style="color:#d8b4fe;">With Polaris ID</div>
+                    <div class="fb-pct" style="color:${C.with_polaris};">${pct(t.with_polaris, t.submitted)}%</div>
+                  </div>
+                </div>
+                <div class="split-branch">
+                  <div class="branch-pipe"></div>
+                  <div class="funnel-block" style="background:rgba(244,114,182,0.12); border:1px solid rgba(244,114,182,0.3); min-width:120px; padding:0.85rem 1rem;">
+                    <div class="fb-count" style="color:${C.no_polaris}; font-size:1.4rem;">${t.no_polaris.toLocaleString()}</div>
+                    <div class="fb-label" style="color:#f9a8d4;">No Polaris ID</div>
+                    <div class="fb-pct" style="color:${C.no_polaris};">${pct(t.no_polaris, t.submitted)}%</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -640,6 +708,8 @@
             <div class="tt-divider"></div>
             <div class="tt-row"><span><span class="tt-dot" style="background:${C.with_zuid}"></span>With ZUID</span><span>${row.with_zuid.toLocaleString()} (${pct(row.with_zuid, row.submitted)}%)</span></div>
             <div class="tt-row"><span><span class="tt-dot" style="background:${C.no_zuid}"></span>No ZUID</span><span>${row.no_zuid.toLocaleString()} (${pct(row.no_zuid, row.submitted)}%)</span></div>
+            <div class="tt-row"><span><span class="tt-dot" style="background:${C.with_tuid}"></span>With TUID</span><span>${row.with_tuid.toLocaleString()} (${pct(row.with_tuid, row.submitted)}%)</span></div>
+            <div class="tt-row"><span><span class="tt-dot" style="background:${C.with_polaris}"></span>With Polaris ID</span><span>${row.with_polaris.toLocaleString()} (${pct(row.with_polaris, row.submitted)}%)</span></div>
             <div class="tt-divider"></div>
             <div class="tt-row"><span><span class="tt-dot" style="background:${C.spam}"></span>Spam Archived</span><span>${row.spam.toLocaleString()} (${pct(row.spam, row.submitted)}%)</span></div>
             <div class="tt-row"><span><span class="tt-dot" style="background:${C.delivered}"></span>Delivered</span><span>${row.delivered.toLocaleString()} (${pct(row.delivered, row.submitted)}%)</span></div>`;
@@ -657,19 +727,24 @@
       const cols = [
         { key: 'period', label: 'Period', cls: '' },
         { key: 'submitted', label: 'Submitted', cls: 'num' },
-        { key: 'with_zuid', label: 'With ZUID', cls: 'num' },
-        { key: 'no_zuid', label: 'No ZUID', cls: 'num' },
+        { key: 'with_zuid', label: 'ZUID', cls: 'num' },
         { key: 'zuidPct', label: 'ZUID %', cls: 'num' },
-        { key: 'spam', label: 'Spam Archived', cls: 'num' },
+        { key: 'with_tuid', label: 'TUID', cls: 'num' },
+        { key: 'tuidPct', label: 'TUID %', cls: 'num' },
+        { key: 'with_polaris', label: 'Polaris', cls: 'num' },
+        { key: 'polarisPct', label: 'Polaris %', cls: 'num' },
+        { key: 'spam', label: 'Spam', cls: 'num' },
         { key: 'spamPct', label: 'Spam %', cls: 'num' },
         { key: 'delivered', label: 'Delivered', cls: 'num' },
-        { key: 'delPct', label: 'Delivery %', cls: 'num' },
+        { key: 'delPct', label: 'Del %', cls: 'num' },
       ];
 
       const sorted = [...agg].sort((a, b) => {
         let va, vb;
         if (sortCol === 'period') { va = a.key; vb = b.key; }
         else if (sortCol === 'zuidPct') { va = a.with_zuid / (a.submitted || 1); vb = b.with_zuid / (b.submitted || 1); }
+        else if (sortCol === 'tuidPct') { va = a.with_tuid / (a.submitted || 1); vb = b.with_tuid / (b.submitted || 1); }
+        else if (sortCol === 'polarisPct') { va = a.with_polaris / (a.submitted || 1); vb = b.with_polaris / (b.submitted || 1); }
         else if (sortCol === 'spamPct') { va = a.spam / (a.submitted || 1); vb = b.spam / (b.submitted || 1); }
         else if (sortCol === 'delPct') { va = a.delivered / (a.submitted || 1); vb = b.delivered / (b.submitted || 1); }
         else { va = a[sortCol]; vb = b[sortCol]; }
@@ -685,17 +760,24 @@
           <tbody>
             ${sorted.map(r => {
               const zp = pct(r.with_zuid, r.submitted);
+              const tp = pct(r.with_tuid, r.submitted);
+              const pp = pct(r.with_polaris, r.submitted);
               const sp = pct(r.spam, r.submitted);
               const dp = pct(r.delivered, r.submitted);
               const zClass = parseFloat(zp) > 85 ? 'pct-good' : parseFloat(zp) > 75 ? 'pct-warn' : 'pct-bad';
+              const tClass = parseFloat(tp) > 50 ? 'pct-good' : parseFloat(tp) > 20 ? 'pct-warn' : 'pct-info';
+              const pClass = parseFloat(pp) > 50 ? 'pct-good' : parseFloat(pp) > 30 ? 'pct-warn' : 'pct-info';
               const sClass = parseFloat(sp) > 10 ? 'pct-bad' : parseFloat(sp) > 5 ? 'pct-warn' : 'pct-good';
               const dClass = parseFloat(dp) > 75 ? 'pct-good' : parseFloat(dp) > 65 ? 'pct-warn' : 'pct-bad';
               return `<tr>
                 <td><strong>${r.label}</strong></td>
                 <td class="num">${r.submitted.toLocaleString()}</td>
                 <td class="num">${r.with_zuid.toLocaleString()}</td>
-                <td class="num">${r.no_zuid.toLocaleString()}</td>
                 <td class="num"><span class="pct-badge ${zClass}">${zp}%</span></td>
+                <td class="num">${r.with_tuid.toLocaleString()}</td>
+                <td class="num"><span class="pct-badge ${tClass}">${tp}%</span></td>
+                <td class="num">${r.with_polaris.toLocaleString()}</td>
+                <td class="num"><span class="pct-badge ${pClass}">${pp}%</span></td>
                 <td class="num">${r.spam.toLocaleString()}</td>
                 <td class="num"><span class="pct-badge ${sClass}">${sp}%</span></td>
                 <td class="num">${r.delivered.toLocaleString()}</td>
